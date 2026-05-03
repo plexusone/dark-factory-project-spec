@@ -1,0 +1,18 @@
+.DS_Store
+.env
+_*
+*.tar
+coverage.txt
+debug.test
+main
+main.zipsite/
+
+# Built binaries
+w3pilot
+w3pilot-mcp
+
+# MkDocs build output
+site/
+
+# Ideation chat files
+IDEATION_CHAT*.md
