@@ -1,0 +1,181 @@
+{
+  "metadata": {
+    "id": "MRD-2025-001",
+    "title": "Data Ingestion Pipeline Improvements",
+    "feature": "query-caching",
+    "version": "1.0.0",
+    "status": "approved",
+    "authors": ["Jane Smith", "John Doe"],
+    "created_at": "2025-01-15T10:00:00Z",
+    "updated_at": "2025-01-20T14:30:00Z",
+    "approved_at": "2025-01-22T09:00:00Z",
+    "approved_by": ["Product Manager", "Engineering Lead"]
+  },
+  "problem_statement": {
+    "summary": "Data analysts cannot iterate quickly on reports because queries on large datasets take 30+ seconds.",
+    "current_state": "Analysts run queries against production database directly. Queries on datasets with 1M+ rows take 30-60 seconds. Analysts must wait between iterations, breaking their flow and reducing productivity.",
+    "desired_state": "Analysts can run queries on large datasets with sub-5-second response times, enabling rapid iteration on reports and analyses.",
+    "impact": "Analysts spend approximately 2 hours per day waiting for queries. With 10 analysts, this represents 20 person-hours daily of lost productivity. Additionally, slow queries discourage exploratory analysis."
+  },
+  "target_users": [
+    {
+      "name": "Data Analyst",
+      "description": "Business analysts who create reports and dashboards for stakeholders. Moderately technical, comfortable with SQL but not programming.",
+      "needs": [
+        "Run ad-hoc queries quickly",
+        "Iterate on report designs",
+        "Access historical data for trend analysis"
+      ],
+      "pain_points": [
+        "Long wait times break concentration",
+        "Can't explore data interactively",
+        "Hesitant to run complex queries due to time cost"
+      ],
+      "priority": "primary"
+    },
+    {
+      "name": "Data Engineer",
+      "description": "Engineers who build and maintain data pipelines. Highly technical, programming expertise.",
+      "needs": [
+        "Monitor pipeline health",
+        "Debug data quality issues",
+        "Optimize query performance"
+      ],
+      "pain_points": [
+        "Troubleshooting is slow due to query times",
+        "Limited visibility into query patterns"
+      ],
+      "priority": "secondary"
+    }
+  ],
+  "success_metrics": [
+    {
+      "id": "SM-001",
+      "name": "Query Response Time",
+      "description": "95th percentile response time for queries on 1M+ row datasets",
+      "current_value": "45 seconds",
+      "target_value": "< 5 seconds",
+      "measurement_method": "Query latency monitoring via APM tool",
+      "timeframe": "Within 30 days of launch"
+    },
+    {
+      "id": "SM-002",
+      "name": "Analyst Productivity",
+      "description": "Number of reports/analyses produced per analyst per week",
+      "current_value": "3 reports/week",
+      "target_value": "5 reports/week",
+      "measurement_method": "Count of published reports in analytics platform",
+      "timeframe": "Within 60 days of launch"
+    },
+    {
+      "id": "SM-003",
+      "name": "Query Volume",
+      "description": "Number of queries run per day (proxy for willingness to explore)",
+      "current_value": "150 queries/day",
+      "target_value": "300 queries/day",
+      "measurement_method": "Query log analysis",
+      "timeframe": "Within 30 days of launch"
+    }
+  ],
+  "market_context": {
+    "competitors": [
+      {
+        "name": "Looker",
+        "strengths": ["Fast query caching", "Good visualization"],
+        "weaknesses": ["Expensive", "Complex setup"]
+      },
+      {
+        "name": "Metabase",
+        "strengths": ["Easy to use", "Open source"],
+        "weaknesses": ["Limited caching", "Scales poorly"]
+      }
+    ],
+    "market_trends": [
+      "Self-service analytics growing in demand",
+      "Real-time data expectations increasing",
+      "Cloud data warehouses becoming standard"
+    ],
+    "differentiators": [
+      "Integrated with existing data platform",
+      "Optimized for our specific data model",
+      "No additional licensing cost"
+    ]
+  },
+  "high_level_requirements": [
+    {
+      "id": "HLR-001",
+      "description": "Implement query result caching for frequently run queries",
+      "rationale": "Most analyst queries are repeated with minor variations. Caching eliminates redundant computation.",
+      "priority": "must_have",
+      "dependencies": []
+    },
+    {
+      "id": "HLR-002",
+      "description": "Create pre-aggregated materialized views for common report patterns",
+      "rationale": "Common aggregations (daily summaries, weekly rollups) can be pre-computed to eliminate real-time aggregation.",
+      "priority": "must_have",
+      "dependencies": ["HLR-001"]
+    },
+    {
+      "id": "HLR-003",
+      "description": "Add query performance monitoring and alerting",
+      "rationale": "Need visibility into query patterns to identify optimization opportunities and detect regressions.",
+      "priority": "should_have",
+      "dependencies": []
+    },
+    {
+      "id": "HLR-004",
+      "description": "Provide query optimization suggestions to analysts",
+      "rationale": "Help analysts write more efficient queries through automated feedback.",
+      "priority": "could_have",
+      "dependencies": ["HLR-003"]
+    }
+  ],
+  "constraints": [
+    {
+      "id": "CON-001",
+      "type": "technical",
+      "description": "Must use existing PostgreSQL database infrastructure",
+      "rationale": "Operations team only has expertise in PostgreSQL. Cannot introduce new database technology.",
+      "negotiable": false
+    },
+    {
+      "id": "CON-002",
+      "type": "resource",
+      "description": "Implementation team limited to 2 engineers",
+      "rationale": "Other engineers allocated to customer-facing features.",
+      "negotiable": true
+    },
+    {
+      "id": "CON-003",
+      "type": "timeline",
+      "description": "Must be ready for Q2 board presentation",
+      "rationale": "CEO wants to demonstrate productivity improvements to the board.",
+      "negotiable": false
+    }
+  ],
+  "non_goals": [
+    "Real-time streaming analytics (batch processing is sufficient)",
+    "Self-service dashboard builder (analysts use existing tools)",
+    "Mobile app for viewing reports (web-only)",
+    "Machine learning-based query optimization (manual tuning for now)"
+  ],
+  "assumptions": [
+    "Existing database hardware can handle additional caching load",
+    "Analysts are willing to adapt query patterns for better performance",
+    "Query patterns are predictable enough for effective caching",
+    "Data freshness requirements allow for up to 1-hour staleness in cached results"
+  ],
+  "open_questions": [
+    {
+      "id": "OQ-001",
+      "question": "What is the acceptable staleness for cached query results?",
+      "context": "Some reports may need real-time data while others can tolerate delay.",
+      "impact": "Affects cache invalidation strategy and complexity.",
+      "owner": "Product Manager",
+      "due_date": "2025-01-25T17:00:00Z",
+      "answer": "Up to 1 hour staleness is acceptable for most reports. Real-time reports will be tagged and excluded from caching.",
+      "answered_at": "2025-01-24T11:00:00Z"
+    }
+  ]
+}

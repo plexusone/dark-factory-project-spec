@@ -1,0 +1,331 @@
+{
+  "metadata": {
+    "id": "PRD-2025-001",
+    "title": "Query Caching System",
+    "feature": "query-caching",
+    "version": "1.0.0",
+    "status": "approved",
+    "authors": ["Jane Smith"],
+    "created_at": "2025-01-25T10:00:00Z",
+    "updated_at": "2025-01-28T16:00:00Z",
+    "approved_at": "2025-01-29T09:00:00Z",
+    "approved_by": ["Engineering Lead"]
+  },
+  "mrd_reference": "MRD-2025-001",
+  "overview": {
+    "summary": "Implement a query result caching layer for the analytics platform to reduce query response times from 30+ seconds to under 5 seconds for frequently run queries.",
+    "goals": [
+      "Reduce 95th percentile query time to under 5 seconds",
+      "Increase analyst query volume by 2x",
+      "Maintain data freshness within 1-hour tolerance"
+    ],
+    "target_release": "v2.5.0"
+  },
+  "functional_requirements": [
+    {
+      "id": "FR-001",
+      "mrd_requirement": "HLR-001",
+      "title": "Cache query results",
+      "description": "When a query is executed, cache the results with a configurable TTL. Subsequent identical queries return cached results.",
+      "acceptance_criteria": [
+        {
+          "id": "AC-001",
+          "given": "A query that has not been run before",
+          "when": "The query is executed",
+          "then": "Results are computed, returned to user, and stored in cache with default 1-hour TTL"
+        },
+        {
+          "id": "AC-002",
+          "given": "A query with cached results within TTL",
+          "when": "The same query is executed",
+          "then": "Cached results are returned within 100ms"
+        },
+        {
+          "id": "AC-003",
+          "given": "A query with expired cached results",
+          "when": "The query is executed",
+          "then": "Fresh results are computed and cache is updated"
+        }
+      ],
+      "test_hints": [
+        {
+          "type": "unit",
+          "focus": "Cache key generation is deterministic for identical queries"
+        },
+        {
+          "type": "integration",
+          "focus": "Cache hit returns correct data matching original query"
+        },
+        {
+          "type": "performance",
+          "focus": "Cache lookup completes in under 50ms"
+        }
+      ],
+      "priority": "must_have",
+      "status": "pending",
+      "dependencies": [],
+      "checkpoint": "CP-001",
+      "uncertainty": "low"
+    },
+    {
+      "id": "FR-002",
+      "mrd_requirement": "HLR-001",
+      "title": "Query normalization",
+      "description": "Normalize queries before cache key generation to maximize cache hits. Equivalent queries with different whitespace or formatting should match.",
+      "acceptance_criteria": [
+        {
+          "id": "AC-004",
+          "given": "Two queries that differ only in whitespace",
+          "when": "Both queries are executed",
+          "then": "The second query returns cached results from the first"
+        },
+        {
+          "id": "AC-005",
+          "given": "Two queries with different column ordering in SELECT",
+          "when": "Both queries are executed",
+          "then": "Each query is cached separately (different results)"
+        }
+      ],
+      "test_hints": [
+        {
+          "type": "unit",
+          "focus": "Normalization removes excess whitespace and lowercases keywords"
+        },
+        {
+          "type": "unit",
+          "focus": "Normalization preserves string literals exactly"
+        },
+        {
+          "type": "edge_case",
+          "focus": "Queries with embedded newlines and tabs"
+        }
+      ],
+      "priority": "must_have",
+      "status": "pending",
+      "dependencies": ["FR-001"],
+      "uncertainty": "low"
+    },
+    {
+      "id": "FR-003",
+      "mrd_requirement": "HLR-001",
+      "title": "Cache invalidation on data change",
+      "description": "When underlying data changes, invalidate affected cached queries to prevent stale results.",
+      "acceptance_criteria": [
+        {
+          "id": "AC-006",
+          "given": "A cached query result for table X",
+          "when": "Data in table X is updated",
+          "then": "The cached result is invalidated within 5 minutes"
+        },
+        {
+          "id": "AC-007",
+          "given": "A cached query result for table X",
+          "when": "Data in unrelated table Y is updated",
+          "then": "The cached result remains valid"
+        }
+      ],
+      "test_hints": [
+        {
+          "type": "integration",
+          "focus": "Table dependency tracking identifies affected queries"
+        },
+        {
+          "type": "edge_case",
+          "focus": "Queries joining multiple tables"
+        }
+      ],
+      "priority": "must_have",
+      "status": "pending",
+      "dependencies": ["FR-001"],
+      "uncertainty": "medium",
+      "uncertainty_reason": "Table dependency tracking complexity for complex joins",
+      "discovery_prompt": "How should we handle cache invalidation for queries that join 5+ tables?"
+    },
+    {
+      "id": "FR-004",
+      "mrd_requirement": "HLR-001",
+      "title": "Cache bypass option",
+      "description": "Allow users to bypass cache and force fresh query execution when needed.",
+      "acceptance_criteria": [
+        {
+          "id": "AC-008",
+          "given": "A query with cached results",
+          "when": "User executes with NOCACHE hint",
+          "then": "Fresh results are computed and returned"
+        },
+        {
+          "id": "AC-009",
+          "given": "A query executed with NOCACHE hint",
+          "when": "Query completes",
+          "then": "Results are still stored in cache for future requests"
+        }
+      ],
+      "test_hints": [
+        {
+          "type": "unit",
+          "focus": "NOCACHE hint is parsed correctly from query"
+        },
+        {
+          "type": "integration",
+          "focus": "Bypass returns fresh data even when cache exists"
+        }
+      ],
+      "priority": "should_have",
+      "status": "pending",
+      "dependencies": ["FR-001"],
+      "uncertainty": "low"
+    },
+    {
+      "id": "FR-005",
+      "mrd_requirement": "HLR-003",
+      "title": "Cache statistics dashboard",
+      "description": "Provide visibility into cache hit rates, memory usage, and query patterns.",
+      "acceptance_criteria": [
+        {
+          "id": "AC-010",
+          "given": "An admin user",
+          "when": "Viewing the cache dashboard",
+          "then": "See cache hit rate, miss rate, eviction count, and memory usage"
+        },
+        {
+          "id": "AC-011",
+          "given": "An admin user",
+          "when": "Viewing top queries",
+          "then": "See most frequently cached queries sorted by hit count"
+        }
+      ],
+      "test_hints": [
+        {
+          "type": "integration",
+          "focus": "Metrics are accurately aggregated"
+        }
+      ],
+      "priority": "should_have",
+      "status": "pending",
+      "dependencies": ["FR-001"],
+      "checkpoint": "CP-002",
+      "uncertainty": "low"
+    }
+  ],
+  "non_functional_requirements": [
+    {
+      "id": "NFR-001",
+      "category": "performance",
+      "description": "Cache lookup latency",
+      "measure": "95th percentile cache lookup time",
+      "target": "< 50ms",
+      "priority": "must_have"
+    },
+    {
+      "id": "NFR-002",
+      "category": "scalability",
+      "description": "Cache capacity",
+      "measure": "Number of cached query results",
+      "target": "Support 100,000 cached queries",
+      "priority": "must_have"
+    },
+    {
+      "id": "NFR-003",
+      "category": "reliability",
+      "description": "Cache availability",
+      "measure": "Cache service uptime",
+      "target": "99.9% availability",
+      "priority": "must_have"
+    },
+    {
+      "id": "NFR-004",
+      "category": "maintainability",
+      "description": "Cache administration",
+      "measure": "Time to clear cache",
+      "target": "Manual cache clear completes in < 30 seconds",
+      "priority": "should_have"
+    }
+  ],
+  "checkpoints": [
+    {
+      "id": "CP-001",
+      "name": "Core Caching Complete",
+      "description": "Validate basic caching functionality before building dependent features",
+      "after_requirements": ["FR-001", "FR-002"],
+      "validation": "human_review",
+      "pause_on_discovery": true,
+      "validation_criteria": [
+        "All unit tests pass",
+        "Integration test shows cache hit returns in < 100ms",
+        "No data corruption in cached results"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "CP-002",
+      "name": "Full System Ready",
+      "description": "Validate complete caching system before release",
+      "after_requirements": ["FR-003", "FR-004", "FR-005"],
+      "validation": "automated",
+      "pause_on_discovery": false,
+      "validation_criteria": [
+        "All tests pass",
+        "NFR-001 target met in load test",
+        "Cache invalidation verified"
+      ],
+      "status": "pending"
+    }
+  ],
+  "technical_constraints": [
+    {
+      "id": "TC-001",
+      "area": "Database",
+      "constraint": "Must use PostgreSQL for cache metadata storage",
+      "rationale": "Operations team only supports PostgreSQL"
+    },
+    {
+      "id": "TC-002",
+      "area": "Memory",
+      "constraint": "Cache memory limited to 16GB per node",
+      "rationale": "Current server allocation"
+    }
+  ],
+  "dependencies": [
+    {
+      "id": "DEP-001",
+      "name": "Redis",
+      "type": "service",
+      "description": "In-memory cache backend",
+      "version": "7.0+",
+      "owner": "Platform Team",
+      "status": "available"
+    },
+    {
+      "id": "DEP-002",
+      "name": "Query Parser Library",
+      "type": "library",
+      "description": "SQL parsing for query normalization",
+      "version": "pg_query 4.0",
+      "owner": "N/A",
+      "status": "available"
+    }
+  ],
+  "out_of_scope": [
+    "Distributed cache across regions (single region only)",
+    "Query result compression (plain storage)",
+    "User-specific cache partitioning (shared cache)",
+    "Cache warming on startup (cold start acceptable)"
+  ],
+  "glossary": [
+    {
+      "term": "TTL",
+      "definition": "Time To Live - duration a cached entry remains valid before expiration",
+      "see_also": ["Cache invalidation"]
+    },
+    {
+      "term": "Cache hit",
+      "definition": "Query result found in cache and returned without re-execution",
+      "see_also": ["Cache miss"]
+    },
+    {
+      "term": "Cache miss",
+      "definition": "Query result not found in cache, requiring fresh execution",
+      "see_also": ["Cache hit"]
+    }
+  ]
+}

@@ -1,0 +1,159 @@
+{
+  "metadata": {
+    "evaluation_id": "EVAL-2025-001",
+    "evaluated_at": "2025-01-28T14:00:00Z",
+    "evaluator": "reviewer-agent",
+    "rubric_version": "1.0.0",
+    "model_id": "claude-opus-4-5-20251101",
+    "judge_runs": [
+      {
+        "judge_id": "judge-1",
+        "model_id": "claude-opus-4-5-20251101",
+        "temperature": 0.0,
+        "decision": "conditional",
+        "category_scores": [
+          {"category": "requirements_clarity", "weight": 0.25, "score": 8.5, "rationale": "Clear and specific requirements"},
+          {"category": "acceptance_criteria", "weight": 0.25, "score": 7.0, "rationale": "Good coverage but missing some error cases"},
+          {"category": "test_coverage", "weight": 0.15, "score": 7.5, "rationale": "Test hints provided for most requirements"},
+          {"category": "dependencies", "weight": 0.15, "score": 9.0, "rationale": "Dependencies well documented"},
+          {"category": "uncertainty_handling", "weight": 0.10, "score": 8.0, "rationale": "Uncertainty flagged with discovery prompts"},
+          {"category": "non_goals", "weight": 0.10, "score": 8.5, "rationale": "Clear scope boundaries"}
+        ],
+        "executed_at": "2025-01-28T14:00:00Z"
+      },
+      {
+        "judge_id": "judge-2",
+        "model_id": "claude-opus-4-5-20251101",
+        "temperature": 0.3,
+        "decision": "conditional",
+        "category_scores": [
+          {"category": "requirements_clarity", "weight": 0.25, "score": 8.0, "rationale": "Requirements are clear overall"},
+          {"category": "acceptance_criteria", "weight": 0.25, "score": 7.5, "rationale": "Good Given-When-Then format"},
+          {"category": "test_coverage", "weight": 0.15, "score": 7.0, "rationale": "Could use more edge case hints"},
+          {"category": "dependencies", "weight": 0.15, "score": 9.0, "rationale": "Well documented"},
+          {"category": "uncertainty_handling", "weight": 0.10, "score": 7.5, "rationale": "Good uncertainty markers"},
+          {"category": "non_goals", "weight": 0.10, "score": 8.0, "rationale": "Scope is clear"}
+        ],
+        "executed_at": "2025-01-28T14:01:00Z"
+      }
+    ]
+  },
+  "subject": {
+    "type": "prd",
+    "id": "PRD-2025-001",
+    "version": "1.0.0",
+    "title": "Query Caching System"
+  },
+  "categories": [
+    {
+      "category": "requirements_clarity",
+      "weight": 0.25,
+      "score": 8.25,
+      "rationale": "Requirements are specific and testable. Each requirement clearly describes what the system must do without prescribing implementation details. MRD traceability is present."
+    },
+    {
+      "category": "acceptance_criteria",
+      "weight": 0.25,
+      "score": 7.25,
+      "rationale": "Good use of Given-When-Then format. Happy paths well covered. Some error cases missing for FR-003 (what happens if invalidation fails?)."
+    },
+    {
+      "category": "test_coverage",
+      "weight": 0.15,
+      "score": 7.25,
+      "rationale": "Test hints provided for most requirements. Could add more security-focused tests (cache poisoning, unauthorized access to cached data)."
+    },
+    {
+      "category": "dependencies",
+      "weight": 0.15,
+      "score": 9.0,
+      "rationale": "External dependencies clearly documented with versions and status. Owners identified."
+    },
+    {
+      "category": "uncertainty_handling",
+      "weight": 0.10,
+      "score": 7.75,
+      "rationale": "FR-003 correctly flagged as medium uncertainty with discovery prompt. Other requirements appropriately marked as low uncertainty."
+    },
+    {
+      "category": "non_goals",
+      "weight": 0.10,
+      "score": 8.25,
+      "rationale": "Clear exclusions prevent scope creep. Distributed caching and compression explicitly excluded."
+    }
+  ],
+  "findings": [
+    {
+      "id": "F-001",
+      "severity": "medium",
+      "category": "acceptance_criteria",
+      "title": "Missing error handling for cache invalidation failure",
+      "description": "FR-003 does not specify what happens if cache invalidation fails (e.g., network partition, timeout). Should stale data be served or should query fail?",
+      "location": "functional_requirements[2]",
+      "suggestion": "Add acceptance criterion: Given cache invalidation fails, When user runs query, Then [define behavior - serve stale with warning OR fail with error]",
+      "blocking": false
+    },
+    {
+      "id": "F-002",
+      "severity": "medium",
+      "category": "test_coverage",
+      "title": "Missing security test hints",
+      "description": "No test hints for security scenarios: cache poisoning, unauthorized access to cached results, cache timing attacks.",
+      "location": "functional_requirements",
+      "suggestion": "Add test hints: {\"type\": \"security\", \"focus\": \"Cached results not accessible across user sessions\"}",
+      "blocking": false
+    },
+    {
+      "id": "F-003",
+      "severity": "low",
+      "category": "acceptance_criteria",
+      "title": "Cache size limit behavior unspecified",
+      "description": "NFR-002 specifies 100K cached queries capacity, but no acceptance criteria for what happens when limit is reached.",
+      "location": "non_functional_requirements[1]",
+      "suggestion": "Add criteria specifying eviction policy (LRU recommended)",
+      "blocking": false
+    },
+    {
+      "id": "F-004",
+      "severity": "info",
+      "category": "requirements_clarity",
+      "title": "Consider cache warmup requirement",
+      "description": "Out of scope lists 'cache warming on startup' but analysts may experience slow queries after restart. Consider adding as future enhancement.",
+      "location": "out_of_scope",
+      "suggestion": "Document as future consideration in MRD backlog",
+      "blocking": false
+    }
+  ],
+  "summary": {
+    "overall_score": 7.8,
+    "strengths": [
+      "Clear, testable functional requirements with MRD traceability",
+      "Good use of Given-When-Then acceptance criteria format",
+      "Dependencies well documented with versions and status",
+      "Appropriate checkpoints for validation",
+      "Uncertainty properly flagged with discovery prompts"
+    ],
+    "weaknesses": [
+      "Some error handling scenarios not fully specified",
+      "Security test coverage could be improved",
+      "Cache limit behavior needs clarification"
+    ],
+    "finding_counts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 2,
+      "low": 1,
+      "info": 1
+    }
+  },
+  "decision": {
+    "type": "conditional",
+    "rationale": "Overall score of 7.8 exceeds minimum threshold. No critical or high severity findings. Two medium findings require attention but do not block development.",
+    "conditions": [
+      "Address F-001: Define cache invalidation failure behavior",
+      "Address F-002: Add security test hints"
+    ],
+    "requires_human_review": true,
+    "human_review_reason": "Medium severity findings exist that require explicit acknowledgment"
+  }
+}
