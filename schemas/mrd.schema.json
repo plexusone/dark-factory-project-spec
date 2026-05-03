@@ -1,0 +1,458 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/plexusone/dark-factory-project-spec/types/mrd",
+  "$ref": "#/$defs/MRD",
+  "$defs": {
+    "Amendment": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "changed_at": {
+          "type": "string"
+        },
+        "changed_by": {
+          "type": "string"
+        },
+        "affected_requirements": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "description",
+        "reason",
+        "changed_at",
+        "changed_by"
+      ]
+    },
+    "Competitor": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "strengths": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "weaknesses": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "name"
+      ]
+    },
+    "ConstitutionOverride": {
+      "properties": {
+        "constitution_version": {
+          "type": "string"
+        },
+        "overrides": {
+          "items": {
+            "$ref": "#/$defs/Override"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "constitution_version",
+        "overrides"
+      ]
+    },
+    "Constraint": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "negotiable": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "type",
+        "description",
+        "negotiable"
+      ]
+    },
+    "DocumentMetadata": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "feature": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "previous_version": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "authors": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        },
+        "approved_at": {
+          "type": "string"
+        },
+        "approved_by": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "amendments": {
+          "items": {
+            "$ref": "#/$defs/Amendment"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "version",
+        "status",
+        "authors",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    "HighLevelRequirement": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "priority": {
+          "type": "string"
+        },
+        "dependencies": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "description",
+        "rationale",
+        "priority"
+      ]
+    },
+    "MRD": {
+      "properties": {
+        "metadata": {
+          "$ref": "#/$defs/DocumentMetadata"
+        },
+        "constitution_ref": {
+          "type": "string"
+        },
+        "constitution_overrides": {
+          "$ref": "#/$defs/ConstitutionOverride"
+        },
+        "problem_statement": {
+          "$ref": "#/$defs/ProblemStatement"
+        },
+        "target_users": {
+          "items": {
+            "$ref": "#/$defs/TargetUser"
+          },
+          "type": "array"
+        },
+        "success_metrics": {
+          "items": {
+            "$ref": "#/$defs/SuccessMetric"
+          },
+          "type": "array"
+        },
+        "market_context": {
+          "$ref": "#/$defs/MarketContext"
+        },
+        "high_level_requirements": {
+          "items": {
+            "$ref": "#/$defs/HighLevelRequirement"
+          },
+          "type": "array"
+        },
+        "constraints": {
+          "items": {
+            "$ref": "#/$defs/Constraint"
+          },
+          "type": "array"
+        },
+        "non_goals": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "open_questions": {
+          "items": {
+            "$ref": "#/$defs/OpenQuestion"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "metadata",
+        "problem_statement",
+        "target_users",
+        "success_metrics",
+        "high_level_requirements"
+      ]
+    },
+    "MarketContext": {
+      "properties": {
+        "competitors": {
+          "items": {
+            "$ref": "#/$defs/Competitor"
+          },
+          "type": "array"
+        },
+        "market_trends": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "differentiators": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "OpenQuestion": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "question": {
+          "type": "string"
+        },
+        "context": {
+          "type": "string"
+        },
+        "impact": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "due_date": {
+          "type": "string"
+        },
+        "answer": {
+          "type": "string"
+        },
+        "answered_at": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "question"
+      ]
+    },
+    "Override": {
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "original_value": {
+          "type": "string"
+        },
+        "override_value": {
+          "type": "string"
+        },
+        "justification": {
+          "type": "string"
+        },
+        "approved_by": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "approved_at": {
+          "type": "string"
+        },
+        "expires_at": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "path",
+        "original_value",
+        "override_value",
+        "justification",
+        "approved_by",
+        "approved_at"
+      ]
+    },
+    "ProblemStatement": {
+      "properties": {
+        "summary": {
+          "type": "string"
+        },
+        "current_state": {
+          "type": "string"
+        },
+        "desired_state": {
+          "type": "string"
+        },
+        "impact": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "summary",
+        "current_state",
+        "desired_state",
+        "impact"
+      ]
+    },
+    "SuccessMetric": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "current_value": {
+          "type": "string"
+        },
+        "target_value": {
+          "type": "string"
+        },
+        "measurement_method": {
+          "type": "string"
+        },
+        "timeframe": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "description",
+        "target_value",
+        "measurement_method"
+      ]
+    },
+    "TargetUser": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "needs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "pain_points": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "priority": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "name",
+        "description",
+        "needs",
+        "priority"
+      ]
+    }
+  }
+}

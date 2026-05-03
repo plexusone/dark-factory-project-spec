@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/plexusone/dark-factory-project-spec/types/execution-report",
+  "$ref": "#/$defs/ExecutionReport",
+  "$defs": {
+    "BlockedItem": {
+      "properties": {
+        "requirement_id": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "blocked_since": {
+          "type": "string"
+        },
+        "depends_on": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "requirement_id",
+        "reason",
+        "blocked_since"
+      ]
+    },
+    "CompletionSummary": {
+      "properties": {
+        "pending": {
+          "type": "integer"
+        },
+        "in_progress": {
+          "type": "integer"
+        },
+        "blocked": {
+          "type": "integer"
+        },
+        "implemented": {
+          "type": "integer"
+        },
+        "validated": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        },
+        "percent_complete": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "pending",
+        "in_progress",
+        "blocked",
+        "implemented",
+        "validated",
+        "total",
+        "percent_complete"
+      ]
+    },
+    "Discovery": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "context": {
+          "type": "string"
+        },
+        "impact": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "string"
+        },
+        "related_requirements": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "suggested_action": {
+          "type": "string"
+        },
+        "resolution": {
+          "$ref": "#/$defs/DiscoveryResolution"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "type",
+        "description",
+        "severity"
+      ]
+    },
+    "DiscoveryResolution": {
+      "properties": {
+        "resolved_at": {
+          "type": "string"
+        },
+        "resolved_by": {
+          "type": "string"
+        },
+        "action": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "amendment_id": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "resolved_at",
+        "resolved_by",
+        "action"
+      ]
+    },
+    "ExecutionReport": {
+      "properties": {
+        "prd_reference": {
+          "type": "string"
+        },
+        "generated_at": {
+          "type": "string"
+        },
+        "overall_status": {
+          "type": "string"
+        },
+        "completion": {
+          "$ref": "#/$defs/CompletionSummary"
+        },
+        "current_checkpoint": {
+          "type": "string"
+        },
+        "blocked_items": {
+          "items": {
+            "$ref": "#/$defs/BlockedItem"
+          },
+          "type": "array"
+        },
+        "discoveries": {
+          "items": {
+            "$ref": "#/$defs/Discovery"
+          },
+          "type": "array"
+        },
+        "next_actions": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "prd_reference",
+        "generated_at",
+        "overall_status",
+        "completion"
+      ]
+    }
+  }
+}

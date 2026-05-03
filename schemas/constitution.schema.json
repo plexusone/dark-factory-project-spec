@@ -1,0 +1,768 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/plexusone/dark-factory-project-spec/types/constitution",
+  "$ref": "#/$defs/Constitution",
+  "$defs": {
+    "APIStandards": {
+      "properties": {
+        "style": {
+          "type": "string"
+        },
+        "versioning": {
+          "type": "string"
+        },
+        "authentication": {
+          "type": "string"
+        },
+        "documentation": {
+          "type": "string"
+        },
+        "rate_limiting": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "style",
+        "versioning",
+        "authentication",
+        "documentation"
+      ]
+    },
+    "ApprovedTechnology": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "versions": {
+          "type": "string"
+        },
+        "use_case": {
+          "type": "string"
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "name",
+        "status"
+      ]
+    },
+    "ArchitecturePattern": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "use_case": {
+          "type": "string"
+        },
+        "reference": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "name",
+        "description",
+        "use_case"
+      ]
+    },
+    "ArchitectureStandards": {
+      "properties": {
+        "patterns": {
+          "items": {
+            "$ref": "#/$defs/ArchitecturePattern"
+          },
+          "type": "array"
+        },
+        "principles": {
+          "items": {
+            "$ref": "#/$defs/Principle"
+          },
+          "type": "array"
+        },
+        "api_standards": {
+          "$ref": "#/$defs/APIStandards"
+        },
+        "data_standards": {
+          "$ref": "#/$defs/DataStandards"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "patterns",
+        "principles"
+      ]
+    },
+    "AuthenticationStandards": {
+      "properties": {
+        "methods": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "mfa_required": {
+          "type": "boolean"
+        },
+        "session_timeout": {
+          "type": "string"
+        },
+        "password_policy": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "methods",
+        "mfa_required"
+      ]
+    },
+    "AuthorizationStandards": {
+      "properties": {
+        "model": {
+          "type": "string"
+        },
+        "default_deny": {
+          "type": "boolean"
+        },
+        "audit_required": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "model",
+        "default_deny",
+        "audit_required"
+      ]
+    },
+    "CodeReviewStandards": {
+      "properties": {
+        "required_approvals": {
+          "type": "integer"
+        },
+        "require_owner_approval": {
+          "type": "boolean"
+        },
+        "automated_checks": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "max_pr_size": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "required_approvals",
+        "require_owner_approval",
+        "automated_checks"
+      ]
+    },
+    "Constitution": {
+      "properties": {
+        "metadata": {
+          "$ref": "#/$defs/ConstitutionMetadata"
+        },
+        "tech_stack": {
+          "$ref": "#/$defs/TechStack"
+        },
+        "architecture": {
+          "$ref": "#/$defs/ArchitectureStandards"
+        },
+        "file_organization": {
+          "$ref": "#/$defs/FileOrganizationStandards"
+        },
+        "quality": {
+          "$ref": "#/$defs/QualityStandards"
+        },
+        "security": {
+          "$ref": "#/$defs/SecurityStandards"
+        },
+        "documentation": {
+          "$ref": "#/$defs/DocumentationStandards"
+        },
+        "process": {
+          "$ref": "#/$defs/ProcessStandards"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "metadata",
+        "tech_stack",
+        "architecture",
+        "file_organization",
+        "quality",
+        "security",
+        "documentation",
+        "process"
+      ]
+    },
+    "ConstitutionMetadata": {
+      "properties": {
+        "version": {
+          "type": "string"
+        },
+        "effective_date": {
+          "type": "string"
+        },
+        "approved_by": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "last_reviewed": {
+          "type": "string"
+        },
+        "next_review": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "version",
+        "effective_date",
+        "approved_by",
+        "last_reviewed"
+      ]
+    },
+    "DataProtectionStandards": {
+      "properties": {
+        "encryption_at_rest": {
+          "type": "boolean"
+        },
+        "encryption_in_transit": {
+          "type": "boolean"
+        },
+        "pii_handling": {
+          "type": "string"
+        },
+        "secret_management": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "encryption_at_rest",
+        "encryption_in_transit",
+        "secret_management"
+      ]
+    },
+    "DataStandards": {
+      "properties": {
+        "naming": {
+          "type": "string"
+        },
+        "retention": {
+          "type": "string"
+        },
+        "privacy": {
+          "type": "string"
+        },
+        "encryption": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "naming"
+      ]
+    },
+    "DocsDirectoryStandards": {
+      "properties": {
+        "root_path": {
+          "type": "string"
+        },
+        "design_path": {
+          "type": "string"
+        },
+        "versioned_design_pattern": {
+          "type": "string"
+        },
+        "feature_design_pattern": {
+          "type": "string"
+        },
+        "adr_path": {
+          "type": "string"
+        },
+        "runbooks_path": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "root_path",
+        "design_path",
+        "versioned_design_pattern",
+        "feature_design_pattern"
+      ]
+    },
+    "DocumentationStandards": {
+      "properties": {
+        "readme_required": {
+          "type": "boolean"
+        },
+        "api_doc_required": {
+          "type": "boolean"
+        },
+        "architecture_doc_required": {
+          "type": "boolean"
+        },
+        "runbook_required": {
+          "type": "boolean"
+        },
+        "changelog_required": {
+          "type": "boolean"
+        },
+        "format": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "readme_required",
+        "api_doc_required",
+        "architecture_doc_required",
+        "runbook_required",
+        "changelog_required"
+      ]
+    },
+    "FeatureFiles": {
+      "properties": {
+        "mrd_file": {
+          "type": "string"
+        },
+        "prd_file": {
+          "type": "string"
+        },
+        "evaluation_file": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "mrd_file",
+        "prd_file",
+        "evaluation_file"
+      ]
+    },
+    "FileOrganizationStandards": {
+      "properties": {
+        "specs": {
+          "$ref": "#/$defs/SpecsDirectoryStandards"
+        },
+        "docs": {
+          "$ref": "#/$defs/DocsDirectoryStandards"
+        },
+        "spec_to_doc_mapping": {
+          "$ref": "#/$defs/SpecToDocMapping"
+        },
+        "naming_conventions": {
+          "$ref": "#/$defs/NamingConventions"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "specs",
+        "docs",
+        "spec_to_doc_mapping",
+        "naming_conventions"
+      ]
+    },
+    "NamingConventions": {
+      "properties": {
+        "version_format": {
+          "type": "string"
+        },
+        "version_example": {
+          "type": "string"
+        },
+        "feature_format": {
+          "type": "string"
+        },
+        "feature_example": {
+          "type": "string"
+        },
+        "spec_file_format": {
+          "type": "string"
+        },
+        "spec_file_example": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "version_format",
+        "version_example",
+        "feature_format",
+        "feature_example",
+        "spec_file_format",
+        "spec_file_example"
+      ]
+    },
+    "Principle": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "statement": {
+          "type": "string"
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "examples": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "name",
+        "statement"
+      ]
+    },
+    "ProcessStandards": {
+      "properties": {
+        "branching_strategy": {
+          "type": "string"
+        },
+        "commit_convention": {
+          "type": "string"
+        },
+        "release_process": {
+          "type": "string"
+        },
+        "incident_response": {
+          "type": "string"
+        },
+        "on_call_required": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "branching_strategy",
+        "commit_convention",
+        "release_process",
+        "on_call_required"
+      ]
+    },
+    "ProhibitedTechnology": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "alternative": {
+          "type": "string"
+        },
+        "exception_process": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "name",
+        "reason"
+      ]
+    },
+    "QualityMetric": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "target": {
+          "type": "string"
+        },
+        "measurement": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "name",
+        "description",
+        "target",
+        "measurement"
+      ]
+    },
+    "QualityStandards": {
+      "properties": {
+        "testing": {
+          "$ref": "#/$defs/TestingStandards"
+        },
+        "code_review": {
+          "$ref": "#/$defs/CodeReviewStandards"
+        },
+        "metrics": {
+          "items": {
+            "$ref": "#/$defs/QualityMetric"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "testing",
+        "code_review"
+      ]
+    },
+    "SecurityStandards": {
+      "properties": {
+        "authentication": {
+          "$ref": "#/$defs/AuthenticationStandards"
+        },
+        "authorization": {
+          "$ref": "#/$defs/AuthorizationStandards"
+        },
+        "data_protection": {
+          "$ref": "#/$defs/DataProtectionStandards"
+        },
+        "compliance": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "vulnerability_scanning": {
+          "$ref": "#/$defs/VulnerabilityScanningStandards"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "authentication",
+        "authorization",
+        "data_protection",
+        "vulnerability_scanning"
+      ]
+    },
+    "SpecToDocMapping": {
+      "properties": {
+        "strategy": {
+          "type": "string"
+        },
+        "feature_field": {
+          "type": "string"
+        },
+        "version_field": {
+          "type": "string"
+        },
+        "doc_file_extension": {
+          "type": "string"
+        },
+        "include_spec_type_prefix": {
+          "type": "boolean"
+        },
+        "generate_index": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "strategy",
+        "doc_file_extension",
+        "include_spec_type_prefix",
+        "generate_index"
+      ]
+    },
+    "SpecsDirectoryStandards": {
+      "properties": {
+        "root_path": {
+          "type": "string"
+        },
+        "roadmap_path": {
+          "type": "string"
+        },
+        "constitution_path": {
+          "type": "string"
+        },
+        "active_path": {
+          "type": "string"
+        },
+        "backlog_path": {
+          "type": "string"
+        },
+        "completed_path": {
+          "type": "string"
+        },
+        "archived_path": {
+          "type": "string"
+        },
+        "feature_files": {
+          "$ref": "#/$defs/FeatureFiles"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "root_path",
+        "roadmap_path",
+        "constitution_path",
+        "active_path",
+        "backlog_path",
+        "completed_path",
+        "archived_path",
+        "feature_files"
+      ]
+    },
+    "TechStack": {
+      "properties": {
+        "languages": {
+          "items": {
+            "$ref": "#/$defs/ApprovedTechnology"
+          },
+          "type": "array"
+        },
+        "frameworks": {
+          "items": {
+            "$ref": "#/$defs/ApprovedTechnology"
+          },
+          "type": "array"
+        },
+        "databases": {
+          "items": {
+            "$ref": "#/$defs/ApprovedTechnology"
+          },
+          "type": "array"
+        },
+        "infrastructure": {
+          "items": {
+            "$ref": "#/$defs/ApprovedTechnology"
+          },
+          "type": "array"
+        },
+        "libraries": {
+          "items": {
+            "$ref": "#/$defs/ApprovedTechnology"
+          },
+          "type": "array"
+        },
+        "prohibited": {
+          "items": {
+            "$ref": "#/$defs/ProhibitedTechnology"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "languages",
+        "frameworks",
+        "databases",
+        "infrastructure"
+      ]
+    },
+    "TestingStandards": {
+      "properties": {
+        "unit_test_coverage": {
+          "type": "string"
+        },
+        "integration_test_required": {
+          "type": "boolean"
+        },
+        "e2e_test_required": {
+          "type": "boolean"
+        },
+        "performance_test_required": {
+          "type": "boolean"
+        },
+        "security_test_required": {
+          "type": "boolean"
+        },
+        "test_frameworks": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "unit_test_coverage",
+        "integration_test_required",
+        "e2e_test_required",
+        "performance_test_required",
+        "security_test_required"
+      ]
+    },
+    "VulnerabilityScanningStandards": {
+      "properties": {
+        "dependency_scanning": {
+          "type": "boolean"
+        },
+        "container_scanning": {
+          "type": "boolean"
+        },
+        "sast_required": {
+          "type": "boolean"
+        },
+        "dast_required": {
+          "type": "boolean"
+        },
+        "max_critical_vulnerabilities": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "dependency_scanning",
+        "container_scanning",
+        "sast_required",
+        "dast_required",
+        "max_critical_vulnerabilities"
+      ]
+    }
+  }
+}

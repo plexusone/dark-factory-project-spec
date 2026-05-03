@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/plexusone/dark-factory-project-spec/types/evaluation-rubric",
+  "$ref": "#/$defs/EvaluationRubric",
+  "$defs": {
+    "EvaluationRubric": {
+      "properties": {
+        "version": {
+          "type": "string"
+        },
+        "spec_type": {
+          "type": "string"
+        },
+        "categories": {
+          "items": {
+            "$ref": "#/$defs/RubricCategory"
+          },
+          "type": "array"
+        },
+        "pass_criteria": {
+          "$ref": "#/$defs/PassCriteria"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "version",
+        "spec_type",
+        "categories",
+        "pass_criteria"
+      ]
+    },
+    "PassCriteria": {
+      "properties": {
+        "min_score": {
+          "type": "number"
+        },
+        "max_critical": {
+          "type": "integer"
+        },
+        "max_high": {
+          "type": "integer"
+        },
+        "max_medium": {
+          "type": "integer"
+        },
+        "human_review_required": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "min_score",
+        "max_critical",
+        "max_high",
+        "max_medium"
+      ]
+    },
+    "RubricCategory": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "weight": {
+          "type": "number"
+        },
+        "criteria": {
+          "items": {
+            "$ref": "#/$defs/RubricCriterion"
+          },
+          "type": "array"
+        },
+        "examples": {
+          "items": {
+            "$ref": "#/$defs/ScoringExample"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "name",
+        "description",
+        "weight",
+        "criteria"
+      ]
+    },
+    "RubricCriterion": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "full_marks_if": {
+          "type": "string"
+        },
+        "deduct_if": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "name",
+        "description",
+        "full_marks_if"
+      ]
+    },
+    "ScoringExample": {
+      "properties": {
+        "score": {
+          "type": "number"
+        },
+        "example": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "score",
+        "example"
+      ]
+    }
+  }
+}

@@ -1,0 +1,339 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/plexusone/dark-factory-project-spec/types/execution-state",
+  "$ref": "#/$defs/ExecutionState",
+  "$defs": {
+    "CheckpointResult": {
+      "properties": {
+        "validated_at": {
+          "type": "string"
+        },
+        "validated_by": {
+          "type": "string"
+        },
+        "passed": {
+          "type": "boolean"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "discoveries": {
+          "items": {
+            "$ref": "#/$defs/Discovery"
+          },
+          "type": "array"
+        },
+        "blocking_issues": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "validated_at",
+        "validated_by",
+        "passed"
+      ]
+    },
+    "CheckpointState": {
+      "properties": {
+        "checkpoint_id": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "reached_at": {
+          "type": "string"
+        },
+        "resolved_at": {
+          "type": "string"
+        },
+        "result": {
+          "$ref": "#/$defs/CheckpointResult"
+        },
+        "waiting_for": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "checkpoint_id",
+        "status"
+      ]
+    },
+    "Discovery": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "context": {
+          "type": "string"
+        },
+        "impact": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "string"
+        },
+        "related_requirements": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "suggested_action": {
+          "type": "string"
+        },
+        "resolution": {
+          "$ref": "#/$defs/DiscoveryResolution"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "type",
+        "description",
+        "severity"
+      ]
+    },
+    "DiscoveryResolution": {
+      "properties": {
+        "resolved_at": {
+          "type": "string"
+        },
+        "resolved_by": {
+          "type": "string"
+        },
+        "action": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "amendment_id": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "resolved_at",
+        "resolved_by",
+        "action"
+      ]
+    },
+    "ExecutionLogEntry": {
+      "properties": {
+        "timestamp": {
+          "type": "string"
+        },
+        "event": {
+          "type": "string"
+        },
+        "details": {
+          "type": "string"
+        },
+        "requirement_id": {
+          "type": "string"
+        },
+        "checkpoint_id": {
+          "type": "string"
+        },
+        "discovery_id": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "timestamp",
+        "event",
+        "details"
+      ]
+    },
+    "ExecutionState": {
+      "properties": {
+        "prd_reference": {
+          "type": "string"
+        },
+        "feature": {
+          "type": "string"
+        },
+        "started_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "current_requirement": {
+          "type": "string"
+        },
+        "current_checkpoint": {
+          "type": "string"
+        },
+        "requirement_states": {
+          "items": {
+            "$ref": "#/$defs/RequirementState"
+          },
+          "type": "array"
+        },
+        "checkpoint_states": {
+          "items": {
+            "$ref": "#/$defs/CheckpointState"
+          },
+          "type": "array"
+        },
+        "discoveries": {
+          "items": {
+            "$ref": "#/$defs/Discovery"
+          },
+          "type": "array"
+        },
+        "execution_log": {
+          "items": {
+            "$ref": "#/$defs/ExecutionLogEntry"
+          },
+          "type": "array"
+        },
+        "paused_reason": {
+          "type": "string"
+        },
+        "resume_instructions": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "prd_reference",
+        "feature",
+        "started_at",
+        "updated_at",
+        "status",
+        "requirement_states",
+        "checkpoint_states"
+      ]
+    },
+    "ImplementationRecord": {
+      "properties": {
+        "files_created": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "files_modified": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "tests_created": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "commit_hash": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "summary"
+      ]
+    },
+    "RequirementState": {
+      "properties": {
+        "requirement_id": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "started_at": {
+          "type": "string"
+        },
+        "completed_at": {
+          "type": "string"
+        },
+        "blocked_reason": {
+          "type": "string"
+        },
+        "blocked_since": {
+          "type": "string"
+        },
+        "implementation": {
+          "$ref": "#/$defs/ImplementationRecord"
+        },
+        "validation_result": {
+          "$ref": "#/$defs/ValidationResult"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "requirement_id",
+        "status"
+      ]
+    },
+    "ValidationResult": {
+      "properties": {
+        "passed": {
+          "type": "boolean"
+        },
+        "validated_at": {
+          "type": "string"
+        },
+        "tests_passed": {
+          "type": "integer"
+        },
+        "tests_failed": {
+          "type": "integer"
+        },
+        "failure_details": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "criteria_results": {
+          "additionalProperties": {
+            "type": "boolean"
+          },
+          "type": "object"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "passed",
+        "validated_at",
+        "tests_passed",
+        "tests_failed"
+      ]
+    }
+  }
+}

@@ -1,0 +1,567 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/plexusone/dark-factory-project-spec/types/prd",
+  "$ref": "#/$defs/PRD",
+  "$defs": {
+    "AcceptanceCriterion": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "given": {
+          "type": "string"
+        },
+        "when": {
+          "type": "string"
+        },
+        "then": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "given",
+        "when",
+        "then"
+      ]
+    },
+    "Amendment": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "changed_at": {
+          "type": "string"
+        },
+        "changed_by": {
+          "type": "string"
+        },
+        "affected_requirements": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "description",
+        "reason",
+        "changed_at",
+        "changed_by"
+      ]
+    },
+    "Checkpoint": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "after_requirements": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "validation": {
+          "type": "string"
+        },
+        "pause_on_discovery": {
+          "type": "boolean"
+        },
+        "validation_criteria": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "status": {
+          "type": "string"
+        },
+        "result": {
+          "$ref": "#/$defs/CheckpointResult"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "description",
+        "after_requirements",
+        "validation",
+        "pause_on_discovery",
+        "status"
+      ]
+    },
+    "CheckpointResult": {
+      "properties": {
+        "validated_at": {
+          "type": "string"
+        },
+        "validated_by": {
+          "type": "string"
+        },
+        "passed": {
+          "type": "boolean"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "discoveries": {
+          "items": {
+            "$ref": "#/$defs/Discovery"
+          },
+          "type": "array"
+        },
+        "blocking_issues": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "validated_at",
+        "validated_by",
+        "passed"
+      ]
+    },
+    "Dependency": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "type",
+        "description",
+        "status"
+      ]
+    },
+    "Discovery": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "context": {
+          "type": "string"
+        },
+        "impact": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "string"
+        },
+        "related_requirements": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "suggested_action": {
+          "type": "string"
+        },
+        "resolution": {
+          "$ref": "#/$defs/DiscoveryResolution"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "type",
+        "description",
+        "severity"
+      ]
+    },
+    "DiscoveryResolution": {
+      "properties": {
+        "resolved_at": {
+          "type": "string"
+        },
+        "resolved_by": {
+          "type": "string"
+        },
+        "action": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "amendment_id": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "resolved_at",
+        "resolved_by",
+        "action"
+      ]
+    },
+    "DocumentMetadata": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "feature": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "previous_version": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "authors": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        },
+        "approved_at": {
+          "type": "string"
+        },
+        "approved_by": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "amendments": {
+          "items": {
+            "$ref": "#/$defs/Amendment"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "version",
+        "status",
+        "authors",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    "FunctionalRequirement": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "mrd_requirement": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "acceptance_criteria": {
+          "items": {
+            "$ref": "#/$defs/AcceptanceCriterion"
+          },
+          "type": "array"
+        },
+        "test_hints": {
+          "items": {
+            "$ref": "#/$defs/TestHint"
+          },
+          "type": "array"
+        },
+        "priority": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "blocked_reason": {
+          "type": "string"
+        },
+        "dependencies": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "checkpoint": {
+          "type": "string"
+        },
+        "uncertainty": {
+          "type": "string"
+        },
+        "uncertainty_reason": {
+          "type": "string"
+        },
+        "discovery_prompt": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "description",
+        "acceptance_criteria",
+        "priority",
+        "status",
+        "uncertainty"
+      ]
+    },
+    "GlossaryTerm": {
+      "properties": {
+        "term": {
+          "type": "string"
+        },
+        "definition": {
+          "type": "string"
+        },
+        "see_also": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "term",
+        "definition"
+      ]
+    },
+    "NonFunctionalRequirement": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "measure": {
+          "type": "string"
+        },
+        "target": {
+          "type": "string"
+        },
+        "priority": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "category",
+        "description",
+        "measure",
+        "target",
+        "priority"
+      ]
+    },
+    "PRD": {
+      "properties": {
+        "metadata": {
+          "$ref": "#/$defs/DocumentMetadata"
+        },
+        "mrd_reference": {
+          "type": "string"
+        },
+        "overview": {
+          "$ref": "#/$defs/PRDOverview"
+        },
+        "functional_requirements": {
+          "items": {
+            "$ref": "#/$defs/FunctionalRequirement"
+          },
+          "type": "array"
+        },
+        "non_functional_requirements": {
+          "items": {
+            "$ref": "#/$defs/NonFunctionalRequirement"
+          },
+          "type": "array"
+        },
+        "checkpoints": {
+          "items": {
+            "$ref": "#/$defs/Checkpoint"
+          },
+          "type": "array"
+        },
+        "technical_constraints": {
+          "items": {
+            "$ref": "#/$defs/TechnicalConstraint"
+          },
+          "type": "array"
+        },
+        "dependencies": {
+          "items": {
+            "$ref": "#/$defs/Dependency"
+          },
+          "type": "array"
+        },
+        "out_of_scope": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "glossary": {
+          "items": {
+            "$ref": "#/$defs/GlossaryTerm"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "metadata",
+        "mrd_reference",
+        "overview",
+        "functional_requirements"
+      ]
+    },
+    "PRDOverview": {
+      "properties": {
+        "summary": {
+          "type": "string"
+        },
+        "goals": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "target_release": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "summary",
+        "goals"
+      ]
+    },
+    "TechnicalConstraint": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "area": {
+          "type": "string"
+        },
+        "constraint": {
+          "type": "string"
+        },
+        "rationale": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "area",
+        "constraint",
+        "rationale"
+      ]
+    },
+    "TestHint": {
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "focus": {
+          "type": "string"
+        },
+        "inputs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "expected_behaviors": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "type",
+        "focus"
+      ]
+    }
+  }
+}

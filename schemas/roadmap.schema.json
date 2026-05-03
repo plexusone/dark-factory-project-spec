@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/plexusone/dark-factory-project-spec/types/roadmap",
+  "$ref": "#/$defs/Roadmap",
+  "$defs": {
+    "ActiveFeature": {
+      "properties": {
+        "feature": {
+          "type": "string"
+        },
+        "priority": {
+          "type": "integer"
+        },
+        "started_at": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "target_version": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "feature",
+        "priority"
+      ]
+    },
+    "ArchivedFeature": {
+      "properties": {
+        "feature": {
+          "type": "string"
+        },
+        "archived_at": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "superseded_by": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "feature",
+        "archived_at",
+        "reason"
+      ]
+    },
+    "BacklogFeature": {
+      "properties": {
+        "feature": {
+          "type": "string"
+        },
+        "priority": {
+          "type": "integer"
+        },
+        "blocked_by": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "estimated_version": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "feature",
+        "priority"
+      ]
+    },
+    "CompletedFeature": {
+      "properties": {
+        "feature": {
+          "type": "string"
+        },
+        "completed_at": {
+          "type": "string"
+        },
+        "released_in": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "feature",
+        "completed_at"
+      ]
+    },
+    "Roadmap": {
+      "properties": {
+        "version": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        },
+        "active": {
+          "items": {
+            "$ref": "#/$defs/ActiveFeature"
+          },
+          "type": "array"
+        },
+        "backlog": {
+          "items": {
+            "$ref": "#/$defs/BacklogFeature"
+          },
+          "type": "array"
+        },
+        "completed": {
+          "items": {
+            "$ref": "#/$defs/CompletedFeature"
+          },
+          "type": "array"
+        },
+        "archived": {
+          "items": {
+            "$ref": "#/$defs/ArchivedFeature"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "version",
+        "updated_at",
+        "active",
+        "backlog",
+        "completed",
+        "archived"
+      ]
+    }
+  }
+}

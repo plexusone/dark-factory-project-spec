@@ -1,0 +1,286 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/plexusone/dark-factory-project-spec/types/spec-evaluation",
+  "$ref": "#/$defs/SpecEvaluation",
+  "$defs": {
+    "CategoryScore": {
+      "properties": {
+        "category": {
+          "type": "string"
+        },
+        "weight": {
+          "type": "number"
+        },
+        "score": {
+          "type": "number"
+        },
+        "rationale": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "category",
+        "weight",
+        "score",
+        "rationale"
+      ]
+    },
+    "Decision": {
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "conditions": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "requires_human_review": {
+          "type": "boolean"
+        },
+        "human_review_reason": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "type",
+        "rationale",
+        "requires_human_review"
+      ]
+    },
+    "EvaluationMetadata": {
+      "properties": {
+        "evaluation_id": {
+          "type": "string"
+        },
+        "evaluated_at": {
+          "type": "string"
+        },
+        "evaluator": {
+          "type": "string"
+        },
+        "rubric_version": {
+          "type": "string"
+        },
+        "model_id": {
+          "type": "string"
+        },
+        "judge_runs": {
+          "items": {
+            "$ref": "#/$defs/JudgeRun"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "evaluation_id",
+        "evaluated_at",
+        "evaluator",
+        "rubric_version"
+      ]
+    },
+    "EvaluationSubject": {
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "type",
+        "id",
+        "version",
+        "title"
+      ]
+    },
+    "EvaluationSummary": {
+      "properties": {
+        "overall_score": {
+          "type": "number"
+        },
+        "strengths": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "weaknesses": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "finding_counts": {
+          "$ref": "#/$defs/FindingCounts"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "overall_score",
+        "strengths",
+        "weaknesses",
+        "finding_counts"
+      ]
+    },
+    "Finding": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "suggestion": {
+          "type": "string"
+        },
+        "blocking": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "id",
+        "severity",
+        "category",
+        "title",
+        "description",
+        "blocking"
+      ]
+    },
+    "FindingCounts": {
+      "properties": {
+        "critical": {
+          "type": "integer"
+        },
+        "high": {
+          "type": "integer"
+        },
+        "medium": {
+          "type": "integer"
+        },
+        "low": {
+          "type": "integer"
+        },
+        "info": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "critical",
+        "high",
+        "medium",
+        "low",
+        "info"
+      ]
+    },
+    "JudgeRun": {
+      "properties": {
+        "judge_id": {
+          "type": "string"
+        },
+        "model_id": {
+          "type": "string"
+        },
+        "temperature": {
+          "type": "number"
+        },
+        "decision": {
+          "type": "string"
+        },
+        "category_scores": {
+          "items": {
+            "$ref": "#/$defs/CategoryScore"
+          },
+          "type": "array"
+        },
+        "executed_at": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "judge_id",
+        "model_id",
+        "temperature",
+        "decision",
+        "category_scores",
+        "executed_at"
+      ]
+    },
+    "SpecEvaluation": {
+      "properties": {
+        "metadata": {
+          "$ref": "#/$defs/EvaluationMetadata"
+        },
+        "subject": {
+          "$ref": "#/$defs/EvaluationSubject"
+        },
+        "categories": {
+          "items": {
+            "$ref": "#/$defs/CategoryScore"
+          },
+          "type": "array"
+        },
+        "findings": {
+          "items": {
+            "$ref": "#/$defs/Finding"
+          },
+          "type": "array"
+        },
+        "summary": {
+          "$ref": "#/$defs/EvaluationSummary"
+        },
+        "decision": {
+          "$ref": "#/$defs/Decision"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "metadata",
+        "subject",
+        "categories",
+        "findings",
+        "summary",
+        "decision"
+      ]
+    }
+  }
+}
