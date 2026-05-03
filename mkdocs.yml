@@ -1,0 +1,104 @@
+site_name: Dark Factory Project Spec
+site_description: Specification system for autonomous AI development execution
+site_url: https://plexusone.github.io/dark-factory-project-spec/
+repo_url: https://github.com/plexusone/dark-factory-project-spec
+repo_name: plexusone/dark-factory-project-spec
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.path
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.tabs.link
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [.]
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - admonition
+  - pymdownx.details
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Installation: getting-started/installation.md
+      - Quick Start: getting-started/quickstart.md
+      - Project Structure: getting-started/structure.md
+  - Concepts:
+      - Overview: concepts/overview.md
+      - Constitution: concepts/constitution.md
+      - MRD: concepts/mrd.md
+      - PRD: concepts/prd.md
+      - Roadmap: concepts/roadmap.md
+      - Checkpoints: concepts/checkpoints.md
+      - Evaluation: concepts/evaluation.md
+  - CLI Reference:
+      - Overview: cli/index.md
+      - dfspec list: cli/list.md
+      - dfspec init: cli/init.md
+      - dfspec move: cli/move.md
+      - dfspec validate: cli/validate.md
+      - dfspec generate: cli/generate.md
+  - Schema Reference:
+      - Overview: schemas/index.md
+      - MRD Schema: schemas/mrd.md
+      - PRD Schema: schemas/prd.md
+      - Constitution Schema: schemas/constitution.md
+      - Roadmap Schema: schemas/roadmap.md
+      - Evaluation Schema: schemas/evaluation.md
+  - Claude Skills:
+      - Overview: skill/index.md
+      - dfspec-guide: skill/dfspec-guide.md
+      - dfspec-exec: skill/dfspec-exec.md
+  - Case Studies:
+      - First Run: case-studies/first-run/index.md
+  - Design:
+      - design/index.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/plexusone/dark-factory-project-spec
