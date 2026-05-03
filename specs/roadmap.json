@@ -1,0 +1,54 @@
+{
+  "version": "1.0.0",
+  "updated_at": "2026-05-01T09:15:24Z",
+  "active": [
+    {
+      "feature": "query-caching",
+      "priority": 1,
+      "started_at": "2025-01-15T00:00:00Z",
+      "owner": "Platform Team",
+      "target_version": "v2.5.0",
+      "notes": "Critical for analyst productivity"
+    },
+    {
+      "feature": "user-authentication",
+      "priority": 2,
+      "started_at": "2025-01-20T00:00:00Z",
+      "owner": "Security Team",
+      "target_version": "v2.5.0"
+    }
+  ],
+  "backlog": [
+    {
+      "feature": "data-export",
+      "priority": 1,
+      "estimated_version": "v2.6.0",
+      "notes": "Requested by enterprise customers"
+    },
+    {
+      "feature": "real-time-sync",
+      "priority": 2,
+      "blocked_by": [
+        "query-caching"
+      ],
+      "estimated_version": "v3.0.0",
+      "notes": "Depends on caching infrastructure"
+    }
+  ],
+  "completed": [
+    {
+      "feature": "legacy-migration",
+      "completed_at": "2025-01-10T00:00:00Z",
+      "released_in": "v2.4.0",
+      "notes": "Migrated from v1 schema"
+    }
+  ],
+  "archived": [
+    {
+      "feature": "graphql-api",
+      "archived_at": "2025-01-05T00:00:00Z",
+      "reason": "Decided to focus on REST API improvements instead",
+      "superseded_by": "query-caching"
+    }
+  ]
+}
